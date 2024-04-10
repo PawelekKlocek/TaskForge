@@ -1,22 +1,48 @@
 {% extends "base.html" %}
 
 {% block title %} Register {% endblock%}
-{% block content %}
+{% block logStyle%}
+    <style>
+        body{background: #000}
+        .card{border: none;height: 410px}
+        .forms-inputs{position: relative}
+        .forms-inputs span{position: absolute;top:-18px;left: 10px;background-color: #fff;padding: 5px 10px;font-size: 15px}
+        .forms-inputs input{height: 50px;border: 2px solid #eee}
+        .forms-inputs input:focus{box-shadow: none;outline: none;border: 2px solid #000}
+        .btn{height: 50px}.success-data{display: flex;flex-direction: column}
+        .bxs-badge-check{font-size: 90px }
+    </style>
 
-<div class="container">
-      <h1>Register</h1>
-      <br>
-      <form action="" method="post">
-        <input type="text" placeholder="Username" name="username" value="{{
-          request.form.username }}">
-         <input type="password" placeholder="Password" name="password" value="{{
-          request.form.password }}">
-         <input type="text" placeholder="Email" name="email" value="{{
-          request.form.email }}">
-        <input class="btn btn-default" type="submit" value="Login">
-      </form>
-      {% if error %}
-        <p class="error"><strong>Error:</strong> {{ error }}
-      {% endif %}
+{%endblock%}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+            <div class="card px-5 py-5" id="form1">
+                <form method="POST" action="{{ url_for('register') }}">
+                    <div class="form-data" v-if="!submitted">
+                        <div class="forms-inputs mb-4"> <span>Email or username</span>
+                             <p><input type="text" name="username" value="{{request.form.username }}"></p>
+                        </div>
+                        <div class="forms-inputs mb-4"> <span>Password</span>
+                             <p><input type="password" name="password" value="{{request.form.password }}"></p>
+                        </div>
+                        <div class="forms-inputs mb-4"> <span>Email</span>
+                             <p><input type="email" name="email" value="{{request.form.password }}"></p>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-dark w-100">Register</button>
+                        </div>
+                        <p>If you have an account click <a href="{{ url_for('login') }}">here</a> login.</p>
+                        {% if error %}
+                        <p class="error"><strong>Error:</strong> {{ error }}</p>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
 {%endblock%}

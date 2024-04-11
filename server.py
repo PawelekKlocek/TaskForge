@@ -54,15 +54,18 @@ def delete_todo(todo_id):
         if todo['id'] == todo_id:
             todos.remove(todo)
     return redirect(url_for('todo'))
+
 #Do zmiany
-'''
-@app.route("/update/<string:todo_id>", methods=['POST'])# dodajemy metody POST do routingu który pozwoli nam na usuwanie zadań z listy
+@app.route("/update/<string:todo_id>", methods=['POST'])
 def update_todo(todo_id):
-    for todo in todos:
-        if todo['id'] == todo_id:
-            todo['name'] = request.form["new_todo_name"]
+    if request.method == 'POST':
+        new_name = request.form["new_todo_name"]
+        for todo in todos:
+            if todo['id'] == todo_id:
+                todo['name'] = new_name
+                break
     return redirect(url_for('todo'))
-'''
+
 
 # dodajemy metody POST do routingu który pozwoli nam na usuwanie zadań z listy
 @app.route("/checked/<string:todo_id>", methods=['POST'])

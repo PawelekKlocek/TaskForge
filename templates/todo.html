@@ -2,6 +2,7 @@
 {% block title %} To Do List{% endblock %}
 {% block content %}
 
+<div class=" border border-muted">
 <div style="text-align: center;"> 
     <h1> Add task to do</h1>
     <form action="{{url_for('todo')}}" method="post" >
@@ -10,18 +11,21 @@
     </form>
 </div>
 
-<div class="todo-container">
+
     {% for item in items %}
     <div class="container bg-secondary mx-auto text-white" style="margin-bottom: 10px;">
-        <div class= "row"  >
+        <div class="row" >
             <div class="col-2 border">{{ item.date }}</div>
-            <div class="col-8 border " style="word-wrap: break-word;">{{ item.name }}</div>
-            <div class="col-2 border">
-                <form action="{{ url_for('delete_todo', todo_id = item.id ) }}" method="post" class="d-inline-block">
-                    <button class="btn btn-danger " style="transform: scale(0.75);">Delete</button>
+            <div class="col-7 border" style="word-wrap: break-word;">{{ item.name }}</div>
+            <div class="col-3 border" style="display: flex; justify-content: center; align-items: center;">
+                <form action="{{ url_for('delete_todo', todo_id=item.id) }}" method="post" class="d-inline-block">
+                    <button class="btn btn-outline-dark" style="transform: scale(0.75);">Delete</button>
+                </form>
+                <form action="" method="post" class="d-inline-block mr-2">
+                    <button class="btn btn-outline-light" style="transform: scale(0.75);">Update</button>
                 </form>
                 <form action="{{ url_for('checked_todo', todo_id=item.id) }}" method="post" class="d-inline-block mr-2">
-                    <input type="checkbox" name="completed" style="transform: scale(2); " {% if item.checked %} checked {% endif %} onchange="this.form.submit()">
+                    <input type="checkbox" name="completed" style="transform: scale(2);" {% if item.checked %} checked {% endif %} onchange="this.form.submit()">
                 </form>
             </div>
         </div>

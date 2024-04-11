@@ -4,17 +4,33 @@ import datetime
 
 app = Flask(__name__) 
 todos = []# lista zadań
-notes = []#lista notatek
+notes_list = []#lista notatek
 
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
-@app.route("/notes")
-def notes():
-    return render_template("notes.html")
 
+
+@app.route("/notes", methods=['GET', 'POST'])
+def notes():
+    return render_template("notes.html", notes=notes_list)
+
+@app.route("/add_note", methods=['POST'])
+def add_note():
+    note_text = request.form['note_name']
+    note_color = request.form['note_color']
+    current_id = str(uuid.uuid4())
+    notes_list.append({'text': note_text, 'color': note_color, 'id' : current_id})
+    # save_notes() funkcja do zapisu notatek
+    return redirect(url_for('notes'))
+
+@app.route("/delete_note/<int:note_id>", methods=['Get','POST'])
+def delete_note(note_id):
+    if request.method == 'POST':
+        del notes_list[note_id]
+    return redirect(url_for('notes'))
 
 @app.route("/todo", methods=['GET', 'POST'])# dodajemy metody POST i GET do routingu który pozwoli nam na dodawanie nowych zadań do listy
 def todo():

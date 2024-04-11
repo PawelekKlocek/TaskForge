@@ -26,10 +26,13 @@ def add_note():
     # save_notes() funkcja do zapisu notatek
     return redirect(url_for('notes'))
 
-@app.route("/delete_note/<int:note_id>", methods=['Get','POST'])
+@app.route("/delete_note/<string:note_id>", methods=['GET','POST'])
 def delete_note(note_id):
     if request.method == 'POST':
-        del notes_list[note_id]
+        for note in notes_list:
+            if str(note['id']) == note_id:
+                notes_list.remove(note)
+                break
     return redirect(url_for('notes'))
 
 @app.route("/todo", methods=['GET', 'POST'])# dodajemy metody POST i GET do routingu który pozwoli nam na dodawanie nowych zadań do listy

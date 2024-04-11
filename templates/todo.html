@@ -2,28 +2,49 @@
 {% block title %} To Do List{% endblock %}
 {% block content %}
 
-<div class=" border border-muted">
-<div style="text-align: center;"> 
-    <h1> Add task to do</h1>
-    <form action="{{url_for('todo')}}" method="post" >
-        <input type="text" placeholder="Enter Task" id="input-todo" name="todo_name">
-        <button type="submit" class="btn btn-primary" id="add-todo">Add Task</button>
-    </form>
-</div>
-
+<div class="border border-muted" style="margin: 20px; background-color: #f6f7f2;">
+    <div class="card-header bg-dark text-white">
+        <div style="text-align: center;"> 
+            <h1> Add task to do</h1>
+            <form action="{{url_for('todo')}}" method="post">
+                <input type="text" class="form-control" placeholder="Enter Task" style="background:black; color:whitesmoke" id="input-todo" name="todo_name">
+                <button type="submit" class="btn w-100" style="margin-top: 10px; background-color: black; color:whitesmoke" id="add-todo">Add Task</button>
+            </form>
+        </div>
+    </div>
 
     {% for item in items %}
-    <div class="container bg-secondary mx-auto text-white" style="margin-bottom: 10px;">
-        <div class="row" >
-            <div class="col-2 border">{{ item.date }}</div>
-            <div class="col-7 border" style="word-wrap: break-word;">{{ item.name }}</div>
+    <div class="container bg-secondary mx-auto text-white" style="margin-top: 10px;">
+        <div class="row">
+            <div class="col-2 border">
+                <span>{{ item.date }}</span>
+            </div>
+            <div class="col-7 border" style="word-wrap: break-word;">
+                <span>{{ item.name }}</span>
+            </div>
             <div class="col-3 border" style="display: flex; justify-content: center; align-items: center;">
                 <form action="{{ url_for('delete_todo', todo_id=item.id) }}" method="post" class="d-inline-block">
                     <button class="btn btn-outline-dark" style="transform: scale(0.75);">Delete</button>
                 </form>
-                <form action="" method="post" class="d-inline-block mr-2">
-                    <button class="btn btn-outline-light" style="transform: scale(0.75);">Update</button>
-                </form>
+                <button type="button" class="btn btn-outline-light ml-2" data-toggle="modal" data-target="#editModal-{{ item.id }}" style="transform: scale(0.75); margin-right: 20px;">Update</button>
+                <div class="modal fade" id="editModal-{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header bg-dark" >
+                                <h5 class="modal-title" id="exampleModalLabel" style=" color:aliceblue">Edit Task</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" style="background-color: #192026;">
+                                <form action="{{ url_for('update_todo', todo_id=item.id) }}" method="post">
+                                    <input type="text" placeholder="Edit task" name="new_todo_name" class="form-control" style="background: black; color:whitesmoke" value="{{ item.name }}">
+                                    <button type="submit" class="btn w-100" style="background-color: black; color:whitesmoke; margin-top: 10px;">Save</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <form action="{{ url_for('checked_todo', todo_id=item.id) }}" method="post" class="d-inline-block mr-2">
                     <input type="checkbox" name="completed" style="transform: scale(2);" {% if item.checked %} checked {% endif %} onchange="this.form.submit()">
                 </form>
@@ -33,4 +54,4 @@
     {% endfor %}
 </div>
 
-{%endblock%}
+{% endblock %}

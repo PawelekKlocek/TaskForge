@@ -42,7 +42,7 @@ def register():
         email = request.form['email']
         password = request.form['password']
         if username != "" and email != "" and password != "":
-            return redirect(url_for('home'))
+            return redirect(url_for('login'))
         else:
             error = "Invalid Credentials. Please try again."
     return render_template('register.html', error=error)

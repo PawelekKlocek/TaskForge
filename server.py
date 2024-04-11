@@ -4,6 +4,7 @@ import datetime
 
 app = Flask(__name__) 
 todos = []# lista zadań
+notes = []#lista notatek
 
 
 @app.route("/")
@@ -14,7 +15,6 @@ def home():
 def notes():
     return render_template("notes.html")
 
-#TO_DO method ####################################################3
 
 @app.route("/todo", methods=['GET', 'POST'])# dodajemy metody POST i GET do routingu który pozwoli nam na dodawanie nowych zadań do listy
 def todo():

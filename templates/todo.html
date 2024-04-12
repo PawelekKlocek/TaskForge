@@ -8,25 +8,47 @@
             <h1> Add task to do</h1>
             <form action="{{url_for('todo')}}" method="post">
                 <input type="text" class="form-control" placeholder="Enter Task" style="background:black; color:whitesmoke" id="input-todo" name="todo_name">
-                <button type="submit" class="btn w-100" style="margin-top: 10px; background-color: black; color:whitesmoke" id="add-todo">Add Task</button>
+                <select class="form-select" aria-label="Priority" name="todo_priority">
+                    <option class="bg-success" value="low">Low</option>
+                    <option class="bg-warning" value="medium">Medium</option>
+                    <option class="bg-danger" value="high">High</option>
+                </select>
+                <button type="submit" class="btn w-100 btn-outline-light" style="margin-top: 10px; background-color: black; color:whitesmoke" id="add-todo">Add Task</button>
             </form>
         </div>
-    </div>
+        <div class="navbar navbar-expand-lg navbar-dark bg-dark " style="border:1px solid aliceblue; color: aliceblue; margin-top: 10px;;">
+            kontent
+        </div>
+    
+    
 
     {% for item in items %}
-    <div class="container bg-secondary mx-auto text-white" style="margin-top: 10px;">
-        <div class="row">
-            <div class="col-2 border">
-                <span>{{ item.date }}</span>
+    <div class="container mx-auto text-white" style="margin-top: 5px; margin-bottom: 5px; ">
+        <div class="row" style="border-bottom: 1px solid #f6f7f2; align-items: center; ">
+            <div class="col-2 ">
+                <span style="text-align: center;">{{ item.date }}</span>
             </div>
-            <div class="col-7 border" style="word-wrap: break-word;">
+            <div class="col-7 " style="word-wrap: break-word;">
+                <form action="{{ url_for('checked_todo', todo_id=item.id) }}" method="post" class="d-inline-block mr-2">
+                    <input type="checkbox" name="completed" style="transform: scale(2);" {% if item.checked %} checked {% endif %} onchange="this.form.submit()">
+                </form>
                 <span>{{ item.name }}</span>
             </div>
-            <div class="col-3 border" style="display: flex; justify-content: center; align-items: center;">
+            <div class="col-1" >
+                {% if item.priority == 'low' %}
+                    <span class="bg-success">Low</span>
+                {% elif item.priority == 'medium' %}
+                    <span class="bg-warning">Medium</span>
+                {% elif item.priority == 'high' %}
+                    <span class="bg-danger" >High</span>
+                {% endif %}
+            </div>
+            <div class="col-2 " style="display: flex; justify-content: left; align-items: center;">
+                
                 <form action="{{ url_for('delete_todo', todo_id=item.id) }}" method="post" class="d-inline-block">
-                    <button class="btn btn-outline-dark" style="transform: scale(0.75);">Delete</button>
+                    <button class="btn btn-outline-danger" style="transform: scale(0.75);">Delete</button>
                 </form>
-                <button type="button" class="btn btn-outline-light ml-2" data-toggle="modal" data-target="#editModal-{{ item.id }}" style="transform: scale(0.75); margin-right: 20px;">Update</button>
+                <button type="button" class="btn btn-outline-success ml-2" data-toggle="modal" data-target="#editModal-{{ item.id }}" style="transform: scale(0.75); margin-right: 20px;">Update</button>
                 <div class="modal fade" id="editModal-{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content ">
@@ -38,20 +60,20 @@
                             </div>
                             <div class="modal-body" style="background-color: #192026;">
                                 <form action="{{ url_for('update_todo', todo_id=item.id) }}" method="post">
-                                    <input type="text" placeholder="Edit task" name="new_todo_name" class="form-control" style="background: black; color:whitesmoke" value="{{ item.name }}">
-                                    <button type="submit" class="btn w-100" style="background-color: black; color:whitesmoke; margin-top: 10px;">Save</button>
+                                    <textarea placeholder="Edit task" name="new_todo_name" class="form-control" style="background: black; color: whitesmoke; min-height: 40vh; overflow-wrap: break-word;">{{ item.name }}</textarea> <!-- textarea umożliwia zawiajeranie tekstu -->
+                                    <button type="submit" class="btn w-100" style="background-color: black; color: whitesmoke; margin-top: 10px;">Save</button>
                                 </form>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
-                <form action="{{ url_for('checked_todo', todo_id=item.id) }}" method="post" class="d-inline-block mr-2">
-                    <input type="checkbox" name="completed" style="transform: scale(2);" {% if item.checked %} checked {% endif %} onchange="this.form.submit()">
-                </form>
+                
             </div>
         </div>
     </div>  
     {% endfor %}
+</div>
 </div>
 
 {% endblock %}

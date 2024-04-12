@@ -9,11 +9,6 @@
             padding: 0;
             font-family: Arial,sans-serif;
         }
-        .header{
-            background-color: #f2f2f2;
-            padding: 20px;
-            text-align: center;
-        }
         .note-container{
             display: flex;
             flex-wrap: wrap;
@@ -42,34 +37,66 @@
         .pink{
             background-color: pink;
         }
+        .green{
+            background-color: darkseagreen;
+        }
+        .orange{
+            background-color: darkorange;
+        }
+        .gray{
+            background-color: lightslategray;
+        }
     </style>
+
 {% endblock%}
 
 {% block content %}
-
-<div style="text-align: center;">
-    <h1 style="margin-bottom: 10px;">Create a new note</h1>
-    <form action="{{url_for('add_note')}}" method="post" >
-        <input type="text" name="note_name" placeholder="Take a note..." style="color: grey;">
-        <select name="note_color">
-            <option value="yellow">Yellow</option>
-            <option value="lightblue">Blue</option>
-            <option value="pink">Pink</option>
-        </select>
-        <button type="submit" class="btn btn-dark w-100">Add note</button>
-    </form>
-</div>
-<div class="note-container">
-    {% for note in notes%}
+<div style="margin-top: 10px; text-align: center;">
+    <div class="card-header bg-light text-black">
+        <h1> Notes </h1>
+        <form action="{{url_for('add_note')}}" method="post">
+            <textarea class="form-control" placeholder="Take a note..." style="background:ghostwhite; color:black; height: 100px; overflow: auto;" id="input-note" name="note_name"></textarea>
+            <label for="color-select">Choose color:</label>
+            <select name="note_color" id="color-select">
+                <option value="yellow">Yellow</option>
+                <option value="lightblue">Blue</option>
+                <option value="pink">Pink</option>
+                <option value="green">Green</option>
+                <option value="orange">Orange</option>
+                <option value="gray">Gray</option>
+            </select>
+            <button type="submit" class="btn btn-dark w-100" id="add-note">Add note</button>
+        </form>
+    </div>
+    <div class="note-container" id="note-container">
+        {% for note in notes %}
         <div class="note {{note.color}}" style="position: relative;">
             <p>{{note.text}}</p>
             <form action="{{ url_for('delete_note', note_id=note.id) }}" method="post" style="position: absolute; bottom: 5px; right: 0px;">
-                <button class="btn btn-outline-dark" style="transform: scale(0.75);">Delete</button>
+                <button class="btn btn-outline-danger" style="transform: scale(0.75);">Delete</button>
             </form>
+            <button type="button" class="btn btn-outline-dark ml-2" data-toggle="modal" data-target="#editModal-{{ note.id }}" style="transform: scale(0.75); position: absolute; bottom: 5px; right: 65px; ">Edit</button>
+            <div class="modal fade" id="editModal-{{ note.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header bg-dark" >
+                                <h5 class="modal-title" id="exampleModalLabel" style=" color:aliceblue">Edit note</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" style="background-color: ghostwhite;">
+                                <form action="{{ url_for('update_note', note_id=note.id) }}" method="post">
+                                    <textarea class="form-control" placeholder="Edit..." style="background:whitesmoke; color:black; height: 200px;" name="new_note_name" id="new_note_name">{{ note.text }}</textarea>
+                                    <button type="submit" class="btn w-100" style="background-color: black; color:whitesmoke; margin-top: 10px;">Save</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
 
-    {%endfor%}
+        {% endfor %}
+    </div>
 </div>
-
-
 {%endblock%}

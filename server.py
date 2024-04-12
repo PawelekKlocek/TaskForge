@@ -31,7 +31,7 @@ def update_note(note_id):
         new_note = request.form["new_note_name"]
         for note in notes_list:
             if note['id'] == note_id:
-                note['name'] = new_note
+                note['text'] = new_note
                 break
     return redirect(url_for('notes'))
 @app.route("/delete_note/<string:note_id>", methods=['GET','POST'])

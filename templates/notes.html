@@ -85,9 +85,9 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body" style="background-color: #192026;">
+                            <div class="modal-body" style="background-color: ghostwhite;">
                                 <form action="{{ url_for('update_note', note_id=note.id) }}" method="post">
-                                    <textarea class="form-control" placeholder="Edit..." style="background:black; color:whitesmoke; height: 200px;" name="new_note_name">{{ note.text }}</textarea>
+                                    <textarea class="form-control" placeholder="Edit..." style="background:whitesmoke; color:black; height: 200px;" name="new_note_name" id="new_note_name">{{ note.text }}</textarea>
                                     <button type="submit" class="btn w-100" style="background-color: black; color:whitesmoke; margin-top: 10px;">Save</button>
                                 </form>
                             </div>

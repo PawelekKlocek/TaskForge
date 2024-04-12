@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request
 import uuid
 import datetime
 
-app = Flask(__name__) 
+app = Flask(__name__)
 todos = []# lista zadań
 notes_list = []#lista notatek
 
@@ -23,9 +23,17 @@ def add_note():
     note_color = request.form['note_color']
     current_id = str(uuid.uuid4())
     notes_list.append({'text': note_text, 'color': note_color, 'id' : current_id})
-    # save_notes() funkcja do zapisu notatek
     return redirect(url_for('notes'))
 
+@app.route("/update_note/<string:note_id>", methods=['POST'])
+def update_note(note_id):
+    if request.method == 'POST':
+        new_note = request.form["new_note_name"]
+        for note in notes_list:
+            if note['id'] == note_id:
+                note['name'] = new_note
+                break
+    return redirect(url_for('notes'))
 @app.route("/delete_note/<string:note_id>", methods=['GET','POST'])
 def delete_note(note_id):
     if request.method == 'POST':

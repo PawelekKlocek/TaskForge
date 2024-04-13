@@ -47,12 +47,14 @@ def delete_note(note_id):
 def todo():
     if request.method == 'POST':
         todo_name= request.form["todo_name"]# przyjmujemy dane z formularza do zmiennej todo_name
+        todo_priority = request.form["todo_priority"]
         current_id = str(uuid.uuid4())  # Generujemy unikalny identyfikator UUID dla nowego zadania
         todos.append({# dodajemy nowy element do listy todos
             'id': current_id,
             'name': todo_name,
             'checked': False,
-            'date': datetime.date.today()
+            'date': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            'priority':todo_priority
         })
     return render_template("todo.html", items=todos)# przekazujemy liste todos do szablonu todo.html
 
@@ -62,7 +64,7 @@ def delete_todo(todo_id):
         if todo['id'] == todo_id:
             todos.remove(todo)
     return redirect(url_for('todo'))
-
+    
 #Do zmiany
 @app.route("/update/<string:todo_id>", methods=['POST'])
 def update_todo(todo_id):

@@ -20,17 +20,27 @@
     <div class="row d-flex justify-content-center">
         <div class="col-md-6">
             <div class="card px-5 py-5" id="form1">
+                {%with massages = get_flashed_messages()%}
+                    {% if massages%}
+                        {%for msg in massages%}
+                            <p>{{msg}}</p>
+                        {%endfor%}
+                    {%endif%}
+                {%endwith%}
+<!--                powyszszy blok kodu jest odpowiedzialny za wiadomosc o wylogowaniu i uzywa flash message. Gdy naciskamy logout, przechodzimy do strony loginu i pojawia sie komu
+                    nikat ze zostalismy wylogowani-->
+
                 <h1>Login</h1>
                 <form method="POST" action="{{ url_for('login') }}">
-                    <div class="form-data" v-if="!submitted">
-                        <div class="forms-inputs mb-4"> <span>Email or username</span>
+                    <div class="form-data">
+                        <div class="forms-inputs mb-4"> <span>Username</span>
                              <p><input type="text" name="username" value="{{request.form.username }}"></p>
                         </div>
                         <div class="forms-inputs mb-4"> <span>Password</span>
                              <p><input type="password" name="password" value="{{request.form.password }}"></p>
                         </div>
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-dark w-100">Login</button>
+                            <button type="submit" class="btn btn-dark w-100">Next</button>
                         </div>
                         <p>If you do not have an account click <a href="{{ url_for('register') }}">here</a> to sign up.</p>
                         {% if error %}

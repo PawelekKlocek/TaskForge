@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, flash
 import uuid
 import datetime
 from flask_sqlalchemy import SQLAlchemy
@@ -129,7 +129,10 @@ def login():
         if user:
             if bcrypt.check_password_hash(user.password, password):
                 return redirect(url_for('home'))
-
+            else:
+                flash('Invalid password. Please try again.', 'error')
+        else:
+            flash('User not found.' , 'error')
 
     return render_template('login.html')
 
@@ -139,10 +142,15 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         # email = request.form['email']
+        user = User.query.filter_by(username=username).first()
+        if user:
+            flash('The username is already taken. Please choose a different one.')
+            return redirect(url_for('register'))
         hashed_password =bcrypt.generate_password_hash(request.form['password'])
         new_user = User(username=username, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
+        flash('Registration successful! You can now log in.', 'success')
         return redirect(url_for('login'))
 
     return render_template('register.html')

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, session
 import uuid
 import datetime
 from flask_sqlalchemy import SQLAlchemy
@@ -8,8 +8,8 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 bcrypt = Bcrypt(app) # potrzebne do zaszyfrowania haseł
 
-app.secret_key= 'thisissecretkey'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
+app.secret_key= 'thisissecretkey' #pozniej to zrobimy tajne chyba
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3' #plik z baza danych
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -27,6 +27,11 @@ class User(db.Model, UserMixin):
 
 @app.route("/")
 def home():
+    if 'user_id' in session:
+        user_id = session['user_id']
+        print("welcome, ", user_id)
+    else:
+        print("nie ma id")
     return render_template("index.html")
 
 
@@ -65,8 +70,7 @@ def delete_note(note_id):
     return redirect(url_for('notes'))
 
 
-@app.route("/todo", methods=['GET',
-                             'POST'])  # dodajemy metody POST i GET do routingu który pozwoli nam na dodawanie nowych zadań do listy
+@app.route("/todo", methods=['GET','POST'])  # dodajemy metody POST i GET do routingu który pozwoli nam na dodawanie nowych zadań do listy
 def todo():
     if request.method == 'POST':
         todo_name = request.form["todo_name"]  # przyjmujemy dane z formularza do zmiennej todo_name
@@ -127,14 +131,23 @@ def login():
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
         if user:
-            if bcrypt.check_password_hash(user.password, password):
+            if bcrypt.check_password_hash(user.password, password): #funkcja porownoje zhashowane haslo z haslem wpisanym przez uzytkownika
+                session['user_id'] = user.id
                 return redirect(url_for('home'))
             else:
-                flash('Invalid password. Please try again.', 'error')
+                flash('Invalid password. Please try again.', 'error') #flash to metoda do wypisywania wiadomosci z wydarzen w aplikacji, np. errorow
         else:
-            flash('User not found.' , 'error')
+            flash('User not found.', 'error')
 
     return render_template('login.html')
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    print(session)
+    session.clear()
+    print(session)
+    flash('You have been logged out!', 'success')
+    return redirect(url_for('login'))
 
 
 @app.route('/register', methods=['GET', 'POST'])

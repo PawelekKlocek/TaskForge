@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %} Login {% endblock%}
+{% block title %} Register {% endblock%}
 {% block astyle%}
     <style>
         body{background: #000}
-        .card{border: none;height: 350px}
+        .card{border: none;height: 410px}
         .forms-inputs{position: relative}
         .forms-inputs span{position: absolute;top:-18px;left: 10px;background-color: #fff;padding: 5px 10px;font-size: 15px}
         .forms-inputs input{height: 50px;border: 2px solid #eee}
         .forms-inputs input:focus{box-shadow: none;outline: none;border: 2px solid #000}
         .btn{height: 50px}.success-data{display: flex;flex-direction: column}
-        .bxs-badge-check{font-size: 90px }
+        .bxs-badge-check{font-size: 90px}
     </style>
 
 {%endblock%}
@@ -27,23 +27,20 @@
                         {%endfor%}
                     {%endif%}
                 {%endwith%}
-<!--                powyszszy blok kodu jest odpowiedzialny za wiadomosc o wylogowaniu i uzywa flash message. Gdy naciskamy logout, przechodzimy do strony loginu i pojawia sie komu
-                    nikat ze zostalismy wylogowani-->
-
-                <h1>Login</h1>
-                <form method="POST" action="{{ url_for('login') }}">
-                    <div class="form-data">
-
-                        <div class="forms-inputs mb-4"> <span>Username</span>
-                             <p><input type="text" name="username" value="{{request.form.username }}"></p>
-                        </div>
-                        <div class="forms-inputs mb-4"> <span>Password</span>
-                             <p><input type="password" name="password" value="{{request.form.password }}"></p>
-                        </div>
+                <h1>Register</h1>
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="username" class="forms-inputs">Username</label>
+                        <input type="text" name="username" id="username" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="forms-inputs">Password</label>
+                        <input type="password" name="password" id="password" class="form-control">
+                    </div>
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-dark w-100">Next</button>
+                            <button type="submit" class="btn btn-dark w-100">Register</button>
                         </div>
-                        <p>If you do not have an account click <a href="{{ url_for('register') }}">here</a> to sign up.</p>
+                        <p>If you have an account click <a href="{{ url_for('auth.login') }}">here</a> login.</p>
                         {% if error %}
                         <p class="error"><strong>Error:</strong> {{ error }}</p>
                         {% endif %}

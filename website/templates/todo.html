@@ -6,7 +6,7 @@
     <div class="card-header bg-dark text-white">
         <div style="text-align: center;"> 
             <h1> Add task to do</h1>
-            <form action="{{url_for('todo')}}" method="post">
+            <form action="{{url_for('views.todo')}}" method="post">
                 <input type="text" class="form-control" placeholder="Enter Task" style="background:black; color:whitesmoke" id="input-todo" name="todo_name">
                 <span style="color:whitesmoke;">Choose priority:</span>
                 <select class="form-select b" style="background:black; color:whitesmoke; margin-top: 10px;;"  aria-label="Priority" name="todo_priority">
@@ -41,7 +41,7 @@
                     <span style="text-align: center;">{{ item.date }}</span>
                 </div>
                 <div class="col-7 " style="word-wrap: break-word;">
-                    <form action="{{ url_for('checked_todo', todo_id=item.id) }}" method="post" class="d-inline-block mr-2">
+                    <form action="{{ url_for('views.checked_todo', todo_id=item.id) }}" method="post" class="d-inline-block mr-2">
                         <input type="checkbox" name="completed" style="transform: scale(2);" {% if item.checked %} checked {% endif %} onchange="this.form.submit()">
                     </form>
                     <span>{{ item.name }}</span>
@@ -58,7 +58,7 @@
                 
                 <div class="col-2 " style="display: flex; justify-content: left; align-items: center;">
                     
-                    <form action="{{ url_for('delete_todo', todo_id=item.id) }}" method="post" class="d-inline-block">
+                    <form action="{{ url_for('views.delete_todo', todo_id=item.id) }}" method="post" class="d-inline-block">
                         <button class="btn btn-outline-danger" style="transform: scale(0.75);">Delete</button>
                     </form>
                     <button type="button" class="btn btn-outline-success " data-toggle="modal" data-target="#editModal-{{ item.id }}" style="transform: scale(0.75);">Update</button>
@@ -72,7 +72,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body" style="background-color: #192026;">
-                                    <form action="{{ url_for('update_todo', todo_id=item.id) }}" method="post">
+                                    <form action="{{ url_for('views.update_todo', todo_id=item.id) }}" method="post">
                                         <textarea placeholder="Edit task" name="new_todo_name" class="form-control" style="background: black; color: whitesmoke; min-height: 40vh; overflow-wrap: break-word;">{{ item.name }}</textarea> <!-- textarea umożliwia zawiajeranie tekstu -->
                                         <button type="submit" class="btn w-100" style="background-color: black; color: whitesmoke; margin-top: 10px;">Save</button>
                                     </form>

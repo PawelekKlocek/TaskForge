@@ -32,22 +32,23 @@
 		    </li>
 	    </ul>
         <ul class="navbar-nav ml-auto">
-             <!-- {% if 'user_id' in session %} -->
-                <li class="nav-item">
+            
+            {% if user.is_authenticated %} 
+                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('auth.logout')}}">Logout</a>
-                </li>
-            <!-- {% else %} -->
+                </li> 
+            {% else %} 
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('auth.login')}}">Login</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('auth.register')}}">Register</a>
                 </li>
-            <!-- {% endif %} -->
+            {% endif %}
         </ul>
         </div>
     </nav>
-    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% with messages = get_flashed_messages(with_categories=true) %} <!--wyświetlanie komunikatów o błędach za pomocą flash-->
         {% if messages %}
             {%for msg in messages %}
                 <div class="alert alert-danger alert-dismissable fade show" role="alert">

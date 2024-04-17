@@ -70,7 +70,7 @@
         </form>
     </div>
     <div class="note-container" id="note-container">
-        {% for note in notes %}
+        {% for note in user.notes %}
         <div class="note {{note.color}}" style="position: relative;">
             <p>{{note.text}}</p>
             <form action="{{ url_for('views.delete_note', note_id=note.id) }}" method="post" style="position: absolute; bottom: 5px; right: 0px;">

@@ -33,7 +33,7 @@ def logout():
     # session.clear()
     # print(session)
     flash('You have been logged out!', category='success')
-    return redirect(url_for('login'))
+    return redirect(url_for('auth.login'))
 
 
 @auth.route('/register', methods=['GET', 'POST'])

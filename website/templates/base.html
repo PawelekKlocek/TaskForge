@@ -50,13 +50,22 @@
     </nav>
     {% with messages = get_flashed_messages(with_categories=true) %} <!--wyświetlanie komunikatów o błędach za pomocą flash-->
         {% if messages %}
-            {%for msg in messages %}
-                <div class="alert alert-danger alert-dismissable fade show" role="alert">
-                    {{msg}}
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+            {%for msg, category in messages %}
+                {% if category == 'error'%}
+                    <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                        {{msg}}
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {%else%}
+                     <div class="alert alert-success alert-dismissable fade show" role="alert">
+                        {{msg}}
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {%endif%}
             {% endfor %}
         {% endif %}
     {% endwith %}

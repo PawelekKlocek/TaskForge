@@ -4,9 +4,7 @@ import datetime
 from flask_login import login_required, current_user
 from .models import User, Task, Note
 from . import db
-# from flask_sqlalchemy import SQLAlchemy
-# from flask_login import UserMixin
-# from flask_bcrypt import Bcrypt
+
 
 views = Blueprint('views', __name__)
 
@@ -22,11 +20,6 @@ views = Blueprint('views', __name__)
 @views.route("/")
 @login_required
 def home():
-    # if 'user_id' in session:
-    #     user_id = session['user_id']
-    #     print("welcome, ", user_id)
-    # else:
-    #     print("nie ma id")
     return render_template("index.html", user=current_user)
 
 
@@ -48,11 +41,6 @@ def add_note():
             new_note = Note(text=note_text, color=note_color, user_id=current_user.id)
             db.session.add(new_note)
             db.session.commit()
-    # if 'user_id' not in session:
-    #     flash('You have to be logged in!', 'error')
-    #     return redirect(url_for('auth.login'))
-    # else:
-    #
     return redirect(url_for('views.notes', user=current_user))
 
 

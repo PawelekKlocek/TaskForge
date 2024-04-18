@@ -15,7 +15,6 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user:
             if check_password_hash(user.password, password): #funkcja porownoje zhashowane haslo z haslem wpisanym przez uzytkownika
-                #session['user_id'] = user.id
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
             else:
@@ -28,9 +27,6 @@ def login():
 @auth.route('/logout', methods=['GET'])
 @login_required
 def logout():
-    # print(session)
-    # session.clear()
-    # print(session)
     logout_user()
     flash('You have been logged out!', category='success')
     return redirect(url_for('auth.login')) 
@@ -54,7 +50,7 @@ def register():
             new_user = User(username=username, password=generate_password_hash(password, method='pbkdf2:sha256'))
             db.session.add(new_user)
             db.session.commit()
-            login_user(user, remember=True)
+            login_user(new_user, remember=True)
             flash('Account created.', category='success')
             return redirect(url_for('auth.login'))
 

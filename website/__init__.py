@@ -1,5 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView  # Import ModelView
 from os import path
 from flask_login import LoginManager
 
@@ -9,7 +11,7 @@ DB_NAME = "database.db"
 def create_app():
     app = Flask(__name__)
     app.secret_key = 'thisissecretkey'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}' # mówimy gdzie ma być baza danych przechoywana
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
     from .views import views
@@ -22,19 +24,26 @@ def create_app():
 
     create_database(app)
 
-    login_manager = LoginManager() #tworzymy obiekt do zarzadzania logowaniem
-    login_manager.login_view = 'auth.login' #jak ktos nie jest zalogowany to przekierowuje na strone logowania
-    login_manager.init_app(app) #inicjalizujemy obiekt do zarzadzania logowaniem
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
 
-    @login_manager.user_loader # mówi jak ma być ładowany użytkownik
+    @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))
 
+    # Inicjalizacja panelu admina
+    admin = Admin(app)
+
+    # Dodanie modeli do panelu admina
+    admin.add_view(ModelView(User, db.session))
+    admin.add_view(ModelView(Task, db.session))
+    admin.add_view(ModelView(Note, db.session))
+
     return app
 
-#sprawdza czy baza danych istnieje, jeśli nie to ją tworzy
 def create_database(app):
     with app.app_context():
-        if not path.exists('website/' + DB_NAME):#???
+        if not path.exists('website/' + DB_NAME):
             db.create_all()
             print('Created Database!')

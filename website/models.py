@@ -23,3 +23,4 @@ class Note(db.Model):
     text = db.Column(db.String)
     color = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    date = db.Column(db.DateTime(timezone=True), default=db.func.now())

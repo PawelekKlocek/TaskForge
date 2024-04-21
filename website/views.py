@@ -1,22 +1,10 @@
 from flask import Flask, render_template, redirect, url_for, request, flash, Blueprint
-import uuid
-import datetime
 from flask_login import login_required, current_user
 from .models import User, Task, Note
 from . import db
 from sqlalchemy import desc
 
-
 views = Blueprint('views', __name__)
-
-
-# @app.route("/users")
-# def users():
-#     users_data = User.query.all()  # Pobieranie danych z bazy danych
-#     return render_template("users.html", users=users_data)  # Przekazanie danych do szablonu HTML
-#
-
-# to bedzie uzywane przy bazie danych, zeby sprawdzac czy dodalo poprawnie uzytkownika itd
 
 @views.route("/")
 @login_required

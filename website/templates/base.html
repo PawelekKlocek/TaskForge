@@ -71,19 +71,7 @@
     {% endwith %}
     <div class=" ">
         <div class="row">
-            <div class="col-md-2">
-                <!-- Right sidebar content goes here -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Czas poświęcony na rozwój</h4>
-                    </div>
-                    <div class="card-body">
-                        <!--tu będą wyświetlane drzewka zależnie od spędzonego czasu na nauce w ciagu dnia-->
-                        <img src="{{url_for('static', filename='tree1.jpg')}}" class="img-fluid" alt="Responsive image">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-10">
+            <div class="col-md-12">
                 {% block content %}
                 {% endblock %}
             </div>

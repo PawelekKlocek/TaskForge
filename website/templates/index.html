@@ -1,6 +1,54 @@
 {% extends "base.html" %}
 
-{% block title %} Home Page {% endblock%}
+{% block title %} Home Page {% endblock %}
+
 {% block content %}
-<h1>Witaj </h1>
-{%endblock%}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 style="text-align: center; margin-top: 20px;">Hello {{ current_user.username }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="border border-muted" style="margin: 20px; background-color: #f6f7f2;">
+                <div class="card-header bg-dark text-white">
+                    <div style="text-align: center;"> 
+                        <h1> Latest TO DO</h1>
+                        <hr style="background-color: white;">
+                        <!-- Display the newest 7 tasks -->
+                        {% for task in todos[:7] %}
+                        <div class="row" style="border-bottom: 1px solid #f6f7f2; align-items: center; padding: 5px;">
+                            <div class="col-12">
+                                {{ task.text }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <a href="{{ url_for('views.todo') }}" class="btn btn-outline-light" style="margin-top: 20px;">All tasks</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="border border-muted" style="margin: 20px; background-color: #f6f7f2;">
+                <div class="card-header bg-dark text-white">
+                    <div style="text-align: center;"> 
+                        <h1> Latest notes </h1>
+                        <hr style="background-color: white;">
+                        <!-- Display the newest 7 notes -->
+                        {% for note in notes[:7] %}
+                        <div class="row" style="border-bottom: 1px solid #f6f7f2; align-items: center; padding: 5px;">
+                            <div class="col-12">
+                                {{ note.text }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <a href="{{ url_for('views.notes') }}" class="btn btn-outline-light" style="margin-top: 20px;">All notes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

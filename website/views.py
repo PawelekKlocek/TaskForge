@@ -4,6 +4,7 @@ import datetime
 from flask_login import login_required, current_user
 from .models import User, Task, Note
 from . import db
+from sqlalchemy import desc
 
 
 views = Blueprint('views', __name__)
@@ -20,7 +21,9 @@ views = Blueprint('views', __name__)
 @views.route("/")
 @login_required
 def home():
-    return render_template("index.html", user=current_user)
+    user_notes = Note.query.filter_by(user_id=current_user.id).order_by(desc(Note.date)).all()# sortujemy po dacie dodania
+    user_todos = Task.query.filter_by(user_id=current_user.id).order_by(desc(Task.date)).all()
+    return render_template("index.html", user=current_user, notes=user_notes, todos=user_todos)
 
 
 @views.route("/notes", methods=['GET', 'POST'])
@@ -81,8 +84,8 @@ def todo():
             db.session.add(new_todo)
             db.session.commit()
         
-    todos = Task.query.filter_by(user_id=current_user.id).all()  # Fetch todos from the database
-    return render_template("todo.html", user=current_user, todos=todos)
+    user_todos = Task.query.filter_by(user_id=current_user.id).order_by(desc(Task.date)).all() # Fetch todos from the database
+    return render_template("todo.html", user=current_user, todos=user_todos)
 
 
 @views.route("/delete/<string:todo_id>", methods=['POST'])
@@ -99,9 +102,10 @@ def update_todo(todo_id):
         new_name = request.form["new_todo_name"]
         todo = Task.query.filter_by(id=todo_id).first()  # Znajdź zadanie w bazie danych
         if todo:
-            todo.text = new_name  # Zaktualizuj nazwę zadania
+            todo.text = new_name  # Zaktualizuj nazwę zadania 
             db.session.commit()
-    return redirect(url_for('views.todo', user=current_user, todos=Task.query.filter_by(user_id=current_user.id).all()))
+    user_todos = Task.query.filter_by(user_id=current_user.id).order_by(desc(Task.date)).all()
+    return redirect(url_for('views.todo', user=current_user, todos=user_todos))
 
 @views.route("/checked/<string:todo_id>", methods=['POST'])
 def checked_todo(todo_id):

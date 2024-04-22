@@ -8,7 +8,7 @@ gdy nazwa użytkownika nie spełnia określonych kryteriów. Gdy nazwa użytkown
 gdzie wyświetli się komunikat "Witaj, [imię użytkownika]!".
 
 ### Krok 1: Rozszerzenie kodu
-Otwórz plik app.py i dodaj mechanizm flashowania w przypadku, gdy nazwa użytkownika jest za krótka lub nie zaczyna się od dużej litery.
+Otwórz plik app.py z poprzedniego zadania i dodaj mechanizm flashowania w przypadku, gdy nazwa użytkownika jest za krótka lub nie zaczyna się od dużej litery.
 Skorzystaj z funkcji flash z modułu Flask. Upewnij się, że po poprawnej walidacji nazwy użytkownika użytkownik zostanie przekierowany do strony /welcome.
 
 ### Krok 2: Utworzenie strony powitalnej

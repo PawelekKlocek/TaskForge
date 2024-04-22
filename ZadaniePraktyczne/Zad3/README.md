@@ -5,8 +5,12 @@ Aplikacja Flask do zarządzania listą zakupów pozwala użytkownikom dodawać p
 
 ## Opis zadania
 
-1. Dodawanie produktów: Użytkownicy mogą dodawać nowe produkty do listy zakupów poprzez formularz na stronie głównej oraz potrzebną ilośc prodktów. ()
+1. Dodawanie produktów: Użytkownicy mogą dodawać nowe produkty do listy zakupów poprzez formularz na stronie głównej oraz potrzebną ilośc prodktów. 
+![Dodawanie produktów ](add_product.png)
+
 2. Przeglądanie listy zakupów: Użytkownicy mogą przeglądać listę zakupów na stronie `basket`, gdzie wyświetlane są wszystkie dodane produkty wraz z ich ilością.
+![Lista produktów](lista.png)
+
 
 ## Baza danych
 

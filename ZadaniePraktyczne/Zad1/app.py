@@ -1,3 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 
-# Zaimplementuj aplikacja Flask do powitania użytkownika
+app = Flask(__name__)
+# zaimplementuj aplikacje flask
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

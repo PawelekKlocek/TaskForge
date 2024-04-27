@@ -9,7 +9,7 @@ Zadanie składa się z dwóch stron:
 
 ## Instalcja Flaska
 
-'''bash
+'''
 pip install flask
 '''
 

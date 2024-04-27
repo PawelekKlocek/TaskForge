@@ -4,7 +4,7 @@
 ## Opis zadania
 
 Zadanie składa się z dwóch stron:
-1. Strona powitalna, na której użytkownik może wprowadzić swoje imię w formularzu. (`index.html`)
+1. Strona, na której użytkownik może wprowadzić swoje imię w formularzu. (`index.html`)
 2. Strona powitalna, na której po wprowadzeniu imienia użytkownika i naciśnięciu przycisku "Submit" wyświetla się komunikat "Witaj, [imię użytkownika]!". (`welcome.html`)
 
 ## Instalcja Flaska

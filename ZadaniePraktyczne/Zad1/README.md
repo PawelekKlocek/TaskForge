@@ -9,9 +9,9 @@ Zadanie składa się z dwóch stron:
 
 ## Instalcja Flaska
 
-'''
+```
 pip install flask
-'''
+```
 
 ## Uruchamianie strony
 

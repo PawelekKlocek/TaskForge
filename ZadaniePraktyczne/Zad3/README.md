@@ -27,5 +27,5 @@ pip install flask
 ```
 
 ```bash
-pip install sqlalchemy
+pip install flask-sqlalchemy
 ```
